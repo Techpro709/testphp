@@ -1,8 +1,25 @@
 <?php
  
 session_start();
- $line = date('Y-m-d H:i:s') . " - $_SERVER[REMOTE_ADDR] - $_SERVER[REQUEST_URI] - $_SERVER['HTTP_X_FORWARDED_FOR'] ";
-file_put_contents('visitors.log', $line . PHP_EOL, FILE_APPEND);
+
+//whether ip is from share internet
+if (!empty($_SERVER['HTTP_CLIENT_IP']))   
+  {
+    $ip_address = $_SERVER['HTTP_CLIENT_IP'];
+  }
+//whether ip is from proxy
+elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))  
+  {
+    $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  }
+//whether ip is from remote address
+else
+  {
+    $ip_address = $_SERVER['REMOTE_ADDR'];
+  }
+
+
+file_put_contents('visitors.log', $ip_address . PHP_EOL, FILE_APPEND);
 
 
 
