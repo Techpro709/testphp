@@ -3,6 +3,35 @@
 session_start();
  $line = date('Y-m-d H:i:s') . " -$_SERVER[REMOTE_ADDR] - $_SERVER[REQUEST_URI] ";
 file_put_contents('visitors.log', $line . PHP_EOL, FILE_APPEND);
+
+
+
+
+
+# get the client's IP address
+$ip = $_SERVER['REMOTE_ADDR'];
+
+# get some date/time information
+$today = getdate();
+$day = $today['weekday'];
+$month = $today['month'];
+$hour = $today['hours'];
+$minute = $today['minutes'];
+
+# get the drupal URI
+$curr_uri = check_plain(request_uri());
+
+# create a string to print
+$format = "%s %s, %s:%s, %s, %s\n";
+$text = sprintf($format, $month, $day, $hour, $minute, $ip, $curr_uri);
+
+# append the string to the log file
+$filename = '/tmp/temp.log';
+$fp = fopen($filename, 'a');
+fwrite($fp, $text);
+fclose($fp);
+
+
 if(isset($_GET['logout'])){    
      
     //Simple exit message
