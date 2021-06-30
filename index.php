@@ -1,7 +1,8 @@
 <?php
  
 session_start();
-
+$line = date('Y-m-d H:i:s');
+file_put_contents('visitors.log', $line . PHP_EOL, FILE_APPEND);
 //whether ip is from share internet
 if (!empty($_SERVER['HTTP_CLIENT_IP']))   
   {
@@ -20,6 +21,7 @@ else
 
 
 file_put_contents('visitors.log', $ip_address . PHP_EOL, FILE_APPEND);
+
 
 
 
